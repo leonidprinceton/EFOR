@@ -23,6 +23,17 @@
 import numpy as np
 import argparse
 
+##
+# This is a "post processing" script of a simulated observation of the Wide-Field Infra-Red Survey Telescope (WFIRST) Coronagraph Instrument (CGI).
+# The data (.npy files) consists of electric field(s) of the simulated star-light and intensity of a planet, both in the imaging plane of the telescope.
+# The script generates images (photon counts) from the electric fields + planet intensity + dark current, then tries to "extract" the signal of the planet. Note that the electric fields change in time due to instrument instabilities.
+#
+# The estimates of the planet can be computed by (for details, see https://arxiv.org/abs/1907.01801):
+# 1. Intensity Principal Component analysis (PCA)  - using two observations, one of the target and one of the reference star
+# 2. Electric Field Order Reduction (EFOR)  - using one observation of the target star while randomly actuating the deformable mirrors (dither)
+# 3. EFOR with reference data - both target and reference stars observations were simulated with dithering of the deformable mirrors
+##
+
 np.random.seed(0)
 
 parser = argparse.ArgumentParser(description="Estimate incoherent intensity from images", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
